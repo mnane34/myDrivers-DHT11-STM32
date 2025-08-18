@@ -12,16 +12,13 @@ Typically, the microcontroller sends a start signal to the DHT11, waits for its 
 
 # 🛠️ Electrical Diagram
 
-- **VCC (Pin 1)**
-
+- **VCC (Pin 1)**<br>
 Power supply pin, typically connected to +5V (can also work with 3.3V on some boards).
 
-- **DATA (Pin 2)**
-
+- **DATA (Pin 2)**<br>
 Serial data pin. Used to communicate temperature and humidity readings with the microcontroller.
 
-- **GND (Pin 3)**
-
+- **GND (Pin 3)**<br>
 Ground connection (GND). It serves as the reference voltage for the circuit.
 
 ![Shematic](images/shematic.png)
