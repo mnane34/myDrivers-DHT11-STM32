@@ -2,9 +2,9 @@
 
 # ⚡ What is DHT11 Sensors?
 
-The DHT11 Sensor is an electronic temperature and humidity measurement device that uses a capacitive humidity sensor and a thermistor to detect environmental conditions. It works by measuring the relative humidity in the air and the ambient temperature, then converting this data into a digital signal. This principle enables simple, low-cost, and reliable climate monitoring in a wide range of applications.
+The DHT11 Sensor is an electronic temperature and humidity measurement device that uses a capacitive humidity sensor and a thermistor to detect environmental conditions. It works by measuring the relative humidity in the air and the ambient temperature, then converting this data into a digital signal. 
 
-# 🔥 How to Use HCSR-04 Ultrasonic Sensor with Microcontrollers?
+# 🔥 How to Use DHT11 Sensor with Microcontrollers?
 
 Using the DHT11 sensor with a microcontroller involves connecting its VCC, GND, and Data pins to the microcontroller, then programming it to read the digital signal sent by the sensor.
 
@@ -33,7 +33,7 @@ In this application, the STM32 Nucleo F446RE development board was used. You can
 <pre><code class="language-c">void DHT11_init(volatile GPIO_TypeDef* DATA_GPIO, volatile uint16_t DATA_PIN);
 </code></pre>
 
-Initializes the DHT11 sensor by configuring the DATA pin for STM32.Enables the GPIO clock, sets the specified pin as output and input, and drives it HIGH as required by the DHT11 communication protocol.
+Initializes the DHT11 sensor by configuring the DATA pin for STM32. Enables the GPIO clock, sets the specified pin as output and input, and drives it HIGH as required by the DHT11 communication protocol.
 
 <pre><code class="language-c">void DHT11_Start(void);
 </code></pre>
@@ -54,7 +54,7 @@ Reads one byte (8 bits) of data from the DHT11 sensor after a successful respons
 
 # 🖥️ Test Highlights
 
-You can easily test the LCD using the following code snippet
+You can easily test the DHT11 sensor using the following code snippet
 
 <pre><code class="language-c">#include "main.h"
 #include "DHT11.h"
@@ -73,11 +73,11 @@ int main(void)
     MX_GPIO_Init();
     DHT11_init(GPIOC, GPIO_PIN_3);
     LCD_InitStruct(GPIOB, GPIO_PIN_15,
-		            GPIOB, GPIO_PIN_1,
-			    GPIOB, GPIO_PIN_2,
-			    GPIOB, GPIO_PIN_12,
-			    GPIOB, GPIO_PIN_14,
-			    GPIOB, GPIO_PIN_13);
+		                 GPIOB, GPIO_PIN_1,
+			         GPIOB, GPIO_PIN_2,
+			         GPIOB, GPIO_PIN_12,
+			         GPIOB, GPIO_PIN_14,
+			         GPIOB, GPIO_PIN_13);
     LCD_clear();
 
     while (1)
