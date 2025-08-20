@@ -36,7 +36,7 @@ void DHT11_Start(void){
 	(void)RCC->AHB1ENR;
 
 	GPIO_INIT_PIN_OUTPUT(DHT11.DATA_GPIOx, DHT11.DATA_PINx);
-	GPIO_RESET_PIN(DHT11.DATA_GPIOx, DHT11.DATA_PINx);
+	GPIO_RESET_PIN(DHT11.DATA_GPIOx, DHT11.DATA_PINx); // send to start signal to sensor
 	DELAY_MS(18);
 	GPIO_INIT_PIN_INPUT(DHT11.DATA_GPIOx, DHT11.DATA_PINx);
 	DELAY_US(30);
@@ -51,7 +51,7 @@ void DHT11_Start(void){
 SensorState_t DHT11_checkResponse(void){
 
 	DELAY_US(40);
-	if(GPIO_READ_PIN(DHT11.DATA_GPIOx, DHT11.DATA_PINx) == 0){
+	if(GPIO_READ_PIN(DHT11.DATA_GPIOx, DHT11.DATA_PINx) == 0){ // check the response
 		DELAY_US(80);
 		if(GPIO_READ_PIN(DHT11.DATA_GPIOx, DHT11.DATA_PINx) == 1){
 			sensorState = SENSOR_SUCCESS;
@@ -82,7 +82,7 @@ uint8_t DHT11_read(SensorState_t state){
 
 		for(bitCounter=0; bitCounter<8; bitCounter++){
 			timeCounter = 0;
-			while(GPIO_READ_PIN(DHT11.DATA_GPIOx, DHT11.DATA_PINx) == 0){
+			while(GPIO_READ_PIN(DHT11.DATA_GPIOx, DHT11.DATA_PINx) == 0){ // wait until the sensor sends the data
 				if(timeCounter > TIMEOUT_US){
 					return SENSOR_ERROR;
 				}
@@ -90,14 +90,14 @@ uint8_t DHT11_read(SensorState_t state){
 				DELAY_US(1);
 			}
 			DELAY_US(40);
-			if(GPIO_READ_PIN(DHT11.DATA_GPIOx, DHT11.DATA_PINx) == 0){
+			if(GPIO_READ_PIN(DHT11.DATA_GPIOx, DHT11.DATA_PINx) == 0){ // read bit by bit
 				readingByte &= ~(1U << (7-bitCounter));
 			}
 			else{
 				readingByte |= (1U << (7-bitCounter));
 			}
 			timeCounter = 0;
-			while(GPIO_READ_PIN(DHT11.DATA_GPIOx, DHT11.DATA_PINx) == 1){
+			while(GPIO_READ_PIN(DHT11.DATA_GPIOx, DHT11.DATA_PINx) == 1){ // wait until ending of the data
 				if(timeCounter > TIMEOUT_US){
 					return SENSOR_ERROR;
 				}
