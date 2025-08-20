@@ -71,10 +71,10 @@ int main(void)
     DHT11_init(GPIOC, GPIO_PIN_3);
     LCD_InitStruct(GPIOB, GPIO_PIN_15,
 		                 GPIOB, GPIO_PIN_1,
-			         GPIOB, GPIO_PIN_2,
-			         GPIOB, GPIO_PIN_12,
-			         GPIOB, GPIO_PIN_14,
-			         GPIOB, GPIO_PIN_13);
+			              GPIOB, GPIO_PIN_2,
+			              GPIOB, GPIO_PIN_12,
+			              GPIOB, GPIO_PIN_14,
+			              GPIOB, GPIO_PIN_13);
     LCD_clear();
 
     while (1)
