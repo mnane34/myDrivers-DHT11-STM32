@@ -1,3 +1,4 @@
+/* Header Directives Definition */
 #include "GPIO.h"
 
 /**
@@ -5,9 +6,9 @@
  * @param GPIOx Pointer to GPIO port (e.g., GPIOA, GPIOB)
  * @param GPIO_Pin Pin number to be set (e.g., GPIO_PIN_5)
  */
-void GPIO_SET_PIN(volatile GPIO_TypeDef* GPIOx, volatile uint16_t GPIO_Pin){
+void GPIO_SET_PIN(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin){
 	  assert_param(IS_GPIO_PIN(GPIO_Pin));
-	  assert_param(IS_GPIO_PIN_ACTION(PinState));
+	  assert_param(IS_GPIO_PIN_ACTION(HIGH));
 	  DELAY_US(1);
 	  GPIOx->BSRR = GPIO_Pin;
 }
@@ -17,9 +18,9 @@ void GPIO_SET_PIN(volatile GPIO_TypeDef* GPIOx, volatile uint16_t GPIO_Pin){
  * @param GPIOx Pointer to GPIO port
  * @param GPIO_Pin Pin number to be reset
  */
-void GPIO_RESET_PIN(volatile GPIO_TypeDef* GPIOx, volatile uint16_t GPIO_Pin){
+void GPIO_RESET_PIN(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin){
 	  assert_param(IS_GPIO_PIN(GPIO_Pin));
-	  assert_param(IS_GPIO_PIN_ACTION(PinState));
+	  assert_param(IS_GPIO_PIN_ACTION(LOW));
 	  DELAY_US(1);
 	  GPIOx->BSRR = (uint32_t)GPIO_Pin << 16U;
 }
@@ -29,7 +30,7 @@ void GPIO_RESET_PIN(volatile GPIO_TypeDef* GPIOx, volatile uint16_t GPIO_Pin){
  * @param GPIOx Pointer to GPIO port
  * @param GPIO_Pin Pin number to be toggled
  */
-void GPIO_TOGGLE_PIN(volatile GPIO_TypeDef* GPIOx, volatile uint16_t GPIO_Pin){
+void GPIO_TOGGLE_PIN(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin){
 
 	uint32_t currentState;
 	assert_param(IS_GPIO_PIN(GPIO_Pin));
@@ -44,9 +45,9 @@ void GPIO_TOGGLE_PIN(volatile GPIO_TypeDef* GPIOx, volatile uint16_t GPIO_Pin){
  * @param GPIO_Pin Pin number to be read
  * @return HIGH or LOW (GPIO_PinState)
  */
-GPIO_PinState GPIO_READ_PIN(volatile GPIO_TypeDef* GPIOx, volatile uint16_t GPIO_Pin){
+GPIO_pinState_t GPIO_READ_PIN(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin){
 
-	GPIO_PinState bitStatus;
+	GPIO_pinState_t bitStatus;
 	assert_param(IS_GPIO_PIN(GPIO_Pin));
 
 	if((GPIOx->IDR & GPIO_Pin) != (uint32_t)GPIO_PIN_RESET){
@@ -55,7 +56,6 @@ GPIO_PinState GPIO_READ_PIN(volatile GPIO_TypeDef* GPIOx, volatile uint16_t GPIO
 	else{
 		bitStatus = LOW;
 	}
-
 	return bitStatus;
 }
 
@@ -68,7 +68,7 @@ GPIO_PinState GPIO_READ_PIN(volatile GPIO_TypeDef* GPIOx, volatile uint16_t GPIO
  *                   Use STM32 HAL-defined pin macros.
  * @note   The corresponding port clock (RCC) must be enabled before calling this function.
  */
-void GPIO_INIT_PIN_OUTPUT(volatile GPIO_TypeDef* GPIOx, volatile uint16_t GPIO_Pin){
+void GPIO_INIT_PIN_OUTPUT(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin){
 
     while (GPIO_Pin){
         uint32_t pos = __builtin_ctz(GPIO_Pin);
@@ -91,7 +91,7 @@ void GPIO_INIT_PIN_OUTPUT(volatile GPIO_TypeDef* GPIOx, volatile uint16_t GPIO_P
  *         adapt the function to loop over all set bits in the mask.
  *         The corresponding port clock (RCC) must be enabled before calling.
  */
-void GPIO_INIT_PIN_INPUT(volatile GPIO_TypeDef* GPIOx, volatile uint16_t GPIO_Pin){
+void GPIO_INIT_PIN_INPUT(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin){
 
     uint32_t pos = __builtin_ctz(GPIO_Pin);
     uint32_t two = pos * 2U;

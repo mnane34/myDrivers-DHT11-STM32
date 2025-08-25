@@ -49,6 +49,11 @@ Waits 40 µs, then verifies if the DATA pin goes LOW, indicating the sensor has 
 
 Reads one byte (8 bits) of data from the DHT11 sensor after a successful response.
 
+<pre><code class="language-c">void void DHT11_readFrame(SensorState_t state);
+</code></pre>
+
+Reads a full 5-byte data frame from the DHT11 sensor.
+
 # 🖥️ Test Highlights
 
 You can easily test the DHT11 sensor using the following code snippet
@@ -59,6 +64,7 @@ You can easily test the DHT11 sensor using the following code snippet
 #include "stdio.h"
 
 extern DHT11_TypeDef_t DHT11;
+extern SensorState_t sensorState;
 
 char bufferDistance_temperature[50];
 char bufferDistance_humidity[50];
@@ -69,38 +75,30 @@ int main(void)
     SystemClock_Config();
     MX_GPIO_Init();
     DHT11_init(GPIOC, GPIO_PIN_3);
-    LCD_InitStruct(GPIOB, GPIO_PIN_15,
-		                  GPIOB, GPIO_PIN_1,
-			              GPIOB, GPIO_PIN_2,
-			              GPIOB, GPIO_PIN_12,
-			              GPIOB, GPIO_PIN_14,
-			              GPIOB, GPIO_PIN_13);
+    LCD_init(GPIOB, GPIO_PIN_15,
+		               GPIOB, GPIO_PIN_1,
+			            GPIOB, GPIO_PIN_2,
+			            GPIOB, GPIO_PIN_12,
+			            GPIOB, GPIO_PIN_14,
+			            GPIOB, GPIO_PIN_13);
     LCD_clear();
 
     while (1)
     {
-       DHT11_Start();
-       DHT11.sensorState = DHT11_checkResponse();
-       DHT11.RH_Bytes[0] = DHT11_read(DHT11.sensorState);
-       DHT11.RH_Bytes[1] = DHT11_read(DHT11.sensorState);
-       DHT11.Temp_Bytes[0] = DHT11_read(DHT11.sensorState);
-       DHT11.Temp_Bytes[1] = DHT11_read(DHT11.sensorState);
-       DHT11.sumBytes = DHT11_read(DHT11.sensorState);
+	  DHT11_start();
+	  sensorState = DHT11_checkResponse();
+	  DHT11_readFrame(sensorState);
 
-       DHT11.temperature = DHT11.Temp_Bytes[0];
-       DHT11.humidity = DHT11.RH_Bytes[0];
-       DELAY_MS(1200);
+	  sprintf(bufferDistance_temperature, "Temperature = %.0f", DHT11.temperature);
+	  sprintf(bufferDistance_humidity, "Humidity    = %.0f", DHT11.humidity);
 
-       sprintf(bufferDistance_temperature, "Temperature = %.0f", DHT11.temperature);
-       sprintf(bufferDistance_humidity, "Humidity    = %.0f", DHT11.humidity);
-
-       LCD_clear();
-       LCD_setCursor(1, 1);
-       LCD_writeString(bufferDistance_temperature);
-       DELAY_MS(1);
-       LCD_setCursor(2, 1);
-       LCD_writeString(bufferDistance_humidity);
-       DELAY_MS(250);
+	  LCD_clear();
+	  LCD_setCursor(1, 1);
+	  LCD_writeString(bufferDistance_temperature);
+	  DELAY_MS(1);
+	  LCD_setCursor(2, 1);
+	  LCD_writeString(bufferDistance_humidity);
+	  DELAY_MS(250);
     }
 }
 </code></pre>

@@ -1,5 +1,5 @@
 /**
- * @file    GPIO.h
+ * @file      GPIO.h
  * @brief   Base Direct Register Access to Control GPIO Pins for STM32
  * @author  Mertcan NANE
  * @date    2025-08-09
@@ -22,16 +22,20 @@
 #define HIGH 	1
 #define LOW 	0
 
-/* Function Header Definitions */
-void GPIO_INIT_PIN_OUTPUT(volatile GPIO_TypeDef* GPIOx, volatile uint16_t GPIO_Pin);
-void GPIO_INIT_PIN_INPUT(volatile GPIO_TypeDef* GPIOx, volatile uint16_t GPIO_Pin);
+/* GPIO Pin State Definitions */
+typedef enum
+{
+  logicLow = 0,
+  logicHigh = 1
+}GPIO_pinState_t;
 
 /* GPIO Direct Register Access Functions */
-void GPIO_SET_PIN(volatile GPIO_TypeDef* GPIOx, volatile uint16_t GPIO_Pin);
-void GPIO_RESET_PIN(volatile GPIO_TypeDef* GPIOx, volatile uint16_t GPIO_Pin);
-void GPIO_TOGGLE_PIN(volatile GPIO_TypeDef* GPIOx, volatile uint16_t GPIO_Pin);
-GPIO_PinState GPIO_READ_PIN(volatile GPIO_TypeDef* GPIOx, volatile uint16_t GPIO_Pin);
+void GPIO_SET_PIN(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin);
+void GPIO_RESET_PIN(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin);
+void GPIO_TOGGLE_PIN(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin);
+GPIO_pinState_t GPIO_READ_PIN(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin);
 
-
+void GPIO_INIT_PIN_INPUT(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin);
+void GPIO_INIT_PIN_OUTPUT(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin);
 
 #endif

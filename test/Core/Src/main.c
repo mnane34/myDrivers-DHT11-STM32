@@ -29,6 +29,7 @@
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
 extern DHT11_TypeDef_t DHT11;
+extern SensorState_t sensorState;
 
 char bufferDistance_temperature[50];
 char bufferDistance_humidity[50];
@@ -94,7 +95,7 @@ int main(void)
   /* USER CODE BEGIN 2 */
   DHT11_init(GPIOC, GPIO_PIN_3);
 
-  LCD_InitStruct(GPIOB, GPIO_PIN_15,
+  LCD_init(GPIOB, GPIO_PIN_15,
 		         GPIOB, GPIO_PIN_1,
 				 GPIOB, GPIO_PIN_2,
 				 GPIOB, GPIO_PIN_12,
@@ -110,17 +111,9 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	  DHT11_Start();
-	  DHT11.sensorState = DHT11_checkResponse();
-	  DHT11.RH_Bytes[0] = DHT11_read(DHT11.sensorState);
-	  DHT11.RH_Bytes[1] = DHT11_read(DHT11.sensorState);
-	  DHT11.Temp_Bytes[0] = DHT11_read(DHT11.sensorState);
-	  DHT11.Temp_Bytes[1] = DHT11_read(DHT11.sensorState);
-	  DHT11.sumBytes = DHT11_read(DHT11.sensorState);
-
-	  DHT11.temperature = DHT11.Temp_Bytes[0];
-	  DHT11.humidity = DHT11.RH_Bytes[0];
-	  DELAY_MS(1200);
+	  DHT11_start();
+	  sensorState = DHT11_checkResponse();
+	  DHT11_readFrame(sensorState);
 
 	  sprintf(bufferDistance_temperature, "Temperature = %.0f", DHT11.temperature);
 	  sprintf(bufferDistance_humidity, "Humidity    = %.0f", DHT11.humidity);
@@ -209,8 +202,18 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOA_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_12|GPIO_PIN_13
                           |GPIO_PIN_14|GPIO_PIN_15, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin : PC3 */
+  GPIO_InitStruct.Pin = GPIO_PIN_3;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
   /*Configure GPIO pins : PB1 PB2 PB12 PB13
                            PB14 PB15 */
