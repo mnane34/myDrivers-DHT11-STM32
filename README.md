@@ -49,7 +49,7 @@ Waits 40 µs, then verifies if the DATA pin goes LOW, indicating the sensor has 
 
 Reads one byte (8 bits) of data from the DHT11 sensor after a successful response.
 
-<pre><code class="language-c">void void DHT11_readFrame(SensorState_t state);
+<pre><code class="language-c">void DHT11_readFrame(SensorState_t state);
 </code></pre>
 
 Reads a full 5-byte data frame from the DHT11 sensor.
