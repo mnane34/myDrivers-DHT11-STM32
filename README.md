@@ -27,7 +27,7 @@ In this application, the STM32 Nucleo F446RE development board was used. You can
 
 # 🚀 Code Explanation
 
-<pre><code class="language-c">void DHT11_init(volatile GPIO_TypeDef* DATA_GPIO, volatile uint16_t DATA_PIN);
+<pre><code class="language-c">void DHT11_initGPIO_TypeDef* DATA_GPIO, uint16_t DATA_PIN);
 </code></pre>
 
 Initializes the DHT11 sensor by configuring the DATA pin for STM32. Enables the GPIO clock, sets the specified pin as output and input, and drives it HIGH as required by the DHT11 communication protocol.
