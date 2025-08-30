@@ -26,6 +26,21 @@ void GPIO_RESET_PIN(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin){
 }
 
 /**
+ * @brief Writes the logic state of the specified GPIO pin.
+ * @param GPIOx Pointer to GPIO port
+ * @param GPIO_Pin Pin number to be toggled
+ *  * @param logicState logic state (high or low)
+ */
+void GPIO_WRITE_PIN(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin, uint8_t logicState){
+	if(logicState == 1){
+		GPIO_SET_PIN(GPIOx, GPIO_Pin);
+	}
+	else{
+		GPIO_RESET_PIN(GPIOx, GPIO_Pin);
+	}
+}
+
+/**
  * @brief Toggles the state of the specified GPIO pin.
  * @param GPIOx Pointer to GPIO port
  * @param GPIO_Pin Pin number to be toggled

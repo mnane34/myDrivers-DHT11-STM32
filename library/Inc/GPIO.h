@@ -32,6 +32,7 @@ typedef enum
 /* GPIO Direct Register Access Functions */
 void GPIO_SET_PIN(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin);
 void GPIO_RESET_PIN(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin);
+void GPIO_WRITE_PIN(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin, uint8_t logicState);
 void GPIO_TOGGLE_PIN(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin);
 GPIO_pinState_t GPIO_READ_PIN(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin);
 
