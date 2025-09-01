@@ -103,7 +103,7 @@ int main(void)
 }
 </code></pre>
 
-![test](images/test.jpg)
+![test](images/test1.jpg)
 
 ## 🎉 Thank You for Reviewing!
 
